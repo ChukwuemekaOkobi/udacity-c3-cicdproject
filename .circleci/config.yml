@@ -162,7 +162,6 @@ jobs:
             apk add --update tar 
             apk add --update gzip
             apk add --update ansible
-
       - run: 
           name: view inventory file 
           command: | 
@@ -172,7 +171,7 @@ jobs:
           command: |
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
-       - destroy-environment:   
+       - destroy-environment
 
 workflows:
   default:
