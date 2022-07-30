@@ -24,10 +24,10 @@ commands:
           when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            export SUCCESS = 1
-            if(( $SUCCESS==1 )); 
+            SUCCESS=1
+            if(( $SUCCESS==1 ));
             then
-              cd ~/project/backend
+            #  cd ~/project/backend
             #  npm install
             #  Add revert code here. You can find this in the Getting Started section.
               exit 0
@@ -241,7 +241,7 @@ jobs:
             && pip3 install \
                 awscli \
             && rm -rf /var/cache/apk/*
-            apk add --update nodejs
+            apk add --update nodejs npm
       - run:
           name: Get backend url
           command: |
@@ -285,7 +285,7 @@ jobs:
             && pip3 install \
                 awscli \
             && rm -rf /var/cache/apk/*
-            apk add --update nodejs
+            apk add --update nodejs npm
       - run:
           name: Deploy backend
           command: |
