@@ -1,13 +1,8 @@
 ---
-
-- name: Copy artifact to EC2 Instance
-  copy:
-    src: artifact.tar.gz
-    dest: ~/
-- name: "Extract"
-  become: true
-  shell: |
-    tar -xvzf ~/artifact.tar.gz
+- name: Extract artifact
+  unarchive:
+    src: ~/project/artifact.tar.gz
+    dest: /home/ubuntu
 
 - name: "server"
   become: true
