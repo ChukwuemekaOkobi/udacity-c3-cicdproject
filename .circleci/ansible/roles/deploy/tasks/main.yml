@@ -29,10 +29,10 @@
   shell: | 
     npm install
 
-- name: "pm2 stop "
-  become: true
-  shell: | 
-    pm2 stop all
+# - name: "pm2 stop "
+#   become: true
+#   shell: | 
+#     pm2 stop all
 
 - name: "start server"
   become: true 
