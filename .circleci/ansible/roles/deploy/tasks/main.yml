@@ -32,9 +32,9 @@
 - name: "pm2 stop "
   become: true
   shell: | 
-    pm2 stop default
+    pm2 stop all
 
 - name: "start server"
   become: true 
   shell: |
-    pm2 start npm --start
+    pm2 start npm -- start
