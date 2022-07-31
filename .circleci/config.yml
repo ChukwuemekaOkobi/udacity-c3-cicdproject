@@ -374,20 +374,22 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/
-      # - run:
-      #     name: Install dependencies
-      #     command: |
-      #       apk add --update ansible
-      #       apk add --no-cache \
-      #           python3 \
-      #           py3-pip \
-      #       && pip3 install --upgrade pip \
-      #       && pip3 install \
-      #           awscli \
-      #       && rm -rf /var/cache/apk/*
-      #       apk add --update nodejs npm
-      #       apk add --update curl && \
-      #       rm -rf /var/cache/apk/*
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update tar 
+            apk add --update gzip
+            apk add --update ansible
+            # apk add --no-cache \
+            #     python3 \
+            #     py3-pip \
+            # && pip3 install --upgrade pip \
+            # && pip3 install \
+            #     awscli \
+            # && rm -rf /var/cache/apk/*
+            apk add --update nodejs npm
+            apk add --update curl && \
+            rm -rf /var/cache/apk/*
       - run:
           name: Update cloudfront distribution
           command: |
