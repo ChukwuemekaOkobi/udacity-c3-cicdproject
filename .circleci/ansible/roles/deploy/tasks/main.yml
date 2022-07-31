@@ -9,5 +9,6 @@
 - name: "run server"
   become: true
   shell: |
-    pm2 stop default
-    pm2 start npm --start
+    ls -l 
+    # pm2 stop default
+    # pm2 start npm --start
