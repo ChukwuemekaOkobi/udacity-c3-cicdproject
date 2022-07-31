@@ -294,11 +294,11 @@ jobs:
             npm run build
             cd .. 
             tar -C backend -czvf artifact.tar.gz .
+            echo "Check for artifact ---------- "
+            ls .
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
-            echo "Check for artifact ---------- "
-            ls .
             ansible-playbook -i inventory.txt deploy-backend.yml
       - persist_to_workspace:
           root: ~/
