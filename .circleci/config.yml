@@ -403,7 +403,7 @@ jobs:
 
   cleanup:
     docker:
-      - image: amazon/aws-cli
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - attach_workspace:
@@ -411,9 +411,15 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum install -y tar gzip curl
-            curl -sL https://rpm.nodesource.com/setup_10.x | bash -
-            yum install -y nodejs
+            apk add --update tar 
+            apk add --update gzip
+            apk add --no-cache \
+                python3 \
+                py3-pip \
+            && pip3 install --upgrade pip \
+            && pip3 install \
+                awscli \
+            && rm -rf /var/cache/apk/*
       - run:
           name: Remove old stacks
           command: |
@@ -430,7 +436,6 @@ jobs:
             else 
               echo '-------------No Clean up ----------'
             fi
-
 
 
 workflows:
