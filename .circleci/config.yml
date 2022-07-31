@@ -360,13 +360,53 @@ jobs:
             if curl -s ${URL} | grep "Welcome"
             then
                 # Change this to 0 after the job fails
-              return 1
+              return 0
             else
               return 1
             fi
       - destroy-environment
       - revert-migrations
 
+  cloudfront-update:
+    docker:
+     - image: alpine:latest
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible
+            apk add --no-cache \
+                python3 \
+                py3-pip \
+            && pip3 install --upgrade pip \
+            && pip3 install \
+                awscli \
+            && rm -rf /var/cache/apk/*
+            apk add --update nodejs npm
+            apk add --update curl && \
+            rm -rf /var/cache/apk/*
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            export OldWorkFlowId=$(aws cloudformation \ 
+            list-exports --query "Export[?Name==\`WorkflowId\`].Value" \
+            --no-paginate --output text)
+            echo $OldWorkFlowId >> ~/OldWorkFlowId.txt
+            cat ~/OldWorkFlowId.text
+
+            aws cloudformation deploy \
+            --template-file .circleci/files/cloudfront.yml \
+            --stack-name InitialStack \
+            --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+            --tags project=udapeople
+
+            echo old: "${OldWorkFlowId}"
+            echo current: "${CIRCLE_WORKFLOW_ID:0:7}"
+      - destroy-environment
+      - revert-migrations  
 
 
 workflows:
