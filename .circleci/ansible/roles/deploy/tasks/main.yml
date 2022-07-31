@@ -24,9 +24,17 @@
     production: yes
     state: present
     
-- name: "run server"
+- name: "npm install"
   become: true
   shell: | 
     npm install
+
+- name: "pm2 stop "
+  become: true
+  shell: | 
     pm2 stop default
+
+- name: "start server"
+  become: true 
+  shell: |
     pm2 start npm --start
